@@ -129,7 +129,7 @@ class AutoEncoder(BaseDetector):
                  hidden_activation='relu', output_activation='sigmoid',
                  loss=mean_squared_error, optimizer='adam',
                  epochs=100, batch_size=32, dropout_rate=0.2,
-                 l2_regularizer=0.1, validation_size=0.1, preprocessing=True,
+                 l2_regularizer=0.1, validation_size=0.1, validation_data=None, preprocessing=True,
                  verbose=1, random_state=None, contamination=0.1):
         super(AutoEncoder, self).__init__(contamination=contamination)
         self.hidden_neurons = hidden_neurons
@@ -142,6 +142,7 @@ class AutoEncoder(BaseDetector):
         self.dropout_rate = dropout_rate
         self.l2_regularizer = l2_regularizer
         self.validation_size = validation_size
+        self.validation_data = validation_data
         self.preprocessing = preprocessing
         self.verbose = verbose
         self.random_state = random_state
@@ -239,6 +240,7 @@ class AutoEncoder(BaseDetector):
                                         batch_size=self.batch_size,
                                         shuffle=True,
                                         validation_split=self.validation_size,
+                                        validation_data=self.validation_data,
                                         verbose=self.verbose).history
         # Reverse the operation for consistency
         self.hidden_neurons_.pop(0)
